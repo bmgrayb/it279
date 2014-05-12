@@ -1,0 +1,42 @@
+/*
+ *ULID: bmgrayb
+ *Programmer: Brandon Graybeal
+ *Date: 02/26/14
+ */
+
+#include "PriorityQueue.h"
+using namespace std;
+
+template<class T>
+PriorityQueue<T>::PriorityQueue()
+{
+  this->root = NULL;
+}
+
+PriorityQueue<T>::~PriorityQueue()
+{
+}
+
+void PriorityQueue<T>::insert(T obj, float priority)
+{
+} 
+
+T PriorityQueue<T>::front();
+{
+}
+
+T PriorityQueue<T>::pop()
+{
+}
+
+bool PriorityQueue<T>::isEmpty()
+{
+}
+
+void PriorityQueue<T>::changePriority(T obj, float new_prioirity)
+{
+}
+
+void PriorityQueue<T>::remove(T obj)
+{
+}

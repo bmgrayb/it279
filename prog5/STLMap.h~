@@ -1,0 +1,73 @@
+#ifndef _STLMAP_H_
+#define _STLMAP_H_
+
+#include "MapInterface.h"
+#include <vector>
+#include <string>
+#include <map>
+#include <iostream>
+using namespace std;
+
+template<class S,class T>
+  class STLMap: public MapInterface<S,T>
+{
+ public:
+  STLMap()
+  {
+  }
+
+  ~STLMap()
+  {
+  }
+
+  bool find(const S& key)
+  {
+    typename map<S,T>::iterator it;
+
+    it = wordMap.find(key);
+
+    if(it != wordMap.end())
+    {
+      //cout << "found word" << endl;
+      return true;
+    }
+    else
+    {
+      //cout << "did not find" << endl;
+      return false;
+    }
+    
+    /*
+    if(wordMap.find(key) != wordMap.end())
+      return true;
+    else
+      return false;
+    */
+
+  }
+
+  T& operator[](const S& key)
+  {
+    return wordMap[key];
+  }
+
+  vector<S> getKeys()
+  {   
+    vector<S> keyvector;
+    
+   typename map<S,T>::iterator it;
+    
+    for(it = wordMap.begin(); it != wordMap.end(); it++)
+    {
+      keyvector.push_back(it->first);
+    }
+    
+    return keyvector;
+  }
+
+ private:
+  map<S,T>wordMap;
+  
+};
+
+#endif

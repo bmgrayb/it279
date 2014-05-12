@@ -1,0 +1,306 @@
+#include "Sorts.h"
+#include "Performance.h"
+#include <float.h>
+#include <iostream>
+using namespace std;
+
+extern Performance perf;
+
+Sorts::Sorts()
+{
+}
+
+///////////////////////////////////////////////////
+//             Insertion sort
+
+void Sorts::insertion_sort(double *array,int length)
+{
+  for (int i=1;i<length;i++)
+  {
+    double tmp = array[i];
+    perf.addAssign();
+    int j = i;
+    while ((j>=1) && (array[j-1]>tmp))
+    {
+	array[j] = array[j-1];
+	j--;
+
+	perf.addAssign();
+	perf.addCompare();
+
+    }
+    array[j]= tmp;
+    perf.addAssign();
+  }
+}
+
+
+///////////////////////////////////////////////////////
+//                   Quicksort
+
+
+//calls quicksort
+void Sorts::quicksort(double *array, int n)
+{
+  quicksort(array, 0, n-1);
+}
+
+//calls the recursive part of quicksort
+void Sorts::quicksort(double *array, int left, int right)
+{
+  if(left < right)
+  {
+    int pivot_index = median3(array, left, right);
+    int new_pivot_index = partition(array, left, right, pivot_index);
+
+    quicksort(array, left, new_pivot_index - 1);
+    quicksort(array, new_pivot_index + 1, right);
+    
+  }
+
+}
+
+//chooses the median of three numbers
+int Sorts::median3(double *array, int left, int right)
+{
+  int mid = (left + right)/2;
+  int median;
+
+  perf.addCompare();
+  if(array[left] > array[mid])
+  {
+    perf.addCompare();
+    if(array[mid] > array[right])
+    {
+      return mid;
+    }
+    else if(array[left] > array[right])
+    {
+      perf.addCompare();
+      return right;
+    }
+    else
+    {
+      perf.addCompare();
+      return left;
+    }
+
+  }
+  else
+  {
+    
+    perf.addCompare();
+    if(array[left] > array[right])
+    {
+      return left;
+    }
+    else if(array[mid] > array[right])
+    {
+      perf.addCompare();
+      return right;
+    }
+    else
+    {
+      perf.addCompare();
+      return mid;
+    }
+
+  }
+
+}
+
+//partitions the array
+int Sorts::partition(double *array, int left, int right, int pivot_index)
+{
+  swap(array, pivot_index, right);
+  int pivot = array[right];
+  perf.addAssign();
+
+  int i = left - 1;
+
+  for(int j = left; j < right; j++)
+  {
+
+    perf.addCompare();
+    if(array[j] <= pivot)
+    {
+      i = i + 1;
+      swap(array, i, j);
+    }
+
+  }
+
+  swap(array, i+1, right);
+
+  return i+1;
+
+}
+
+//swaps two numbers in an array
+void Sorts::swap(double *array, int index1, int index2)
+{
+  double temp = array[index1];
+  array[index1] = array[index2];
+  array[index2] = temp;
+
+  perf.addAssign();
+  perf.addAssign();
+  perf.addAssign();
+}
+
+
+////////////////////////////////////////////////////////
+//                    Heapsort
+
+//calls heapsort
+void Sorts::heapsort(double *array, int n)
+{
+ 
+  heapify(array, 0, n - 1);
+
+  int max = n - 1;
+  
+  while(max > 0)
+  {
+    swap(array, 0, max);   /*swaps the max element*/
+
+    max--;
+
+    percolate(array, 0, max);
+  }
+
+}
+
+//creates a heap out of an array
+void Sorts::heapify(double *array, int min, int max)
+{
+  
+  int mid = (min + max)/2;
+
+  while(mid >= 0)
+  {
+    percolate(array, mid, max);
+    mid--;
+  }
+  
+}
+
+//adjusts the heap
+void Sorts::percolate(double *array, int min, int max)
+{
+
+  int root = min;
+  
+  while((root * 2) + 1 <= max)
+  {
+    int leftChild = (root * 2) + 1;
+    int rightChild = leftChild + 1;
+    
+    int index =  root;
+
+    perf.addCompare();
+    if(array[index] < array[leftChild])
+      index = leftChild;
+    
+    perf.addCompare();
+    if((rightChild <= max) && (array[index] < array[rightChild]))
+      index = rightChild;
+
+
+    if(index != root)
+    {
+      swap(array, root, index);
+
+      root = index;
+    }
+    else
+      break;
+
+  }
+
+}
+
+
+/////////////////////////////////////////////////
+//                  Mergesort
+
+//calls merge bottom up by incrementing the step size 
+void Sorts::mergesort(double *array, int length)
+{
+  
+  if(length < 2)
+    return;
+
+  int step, i, left, mid, right;
+
+  for(step = 1; step < length; step = 2*step)
+  {
+    for(i = 0; i < length; i = i + 2*step)
+    {
+      left = i;
+
+      if((i + step) < length)
+	mid = i + step;
+      else
+	mid = length;
+      
+      if((i + 2*step) < length)
+	right = i + 2*step;
+      else
+	right = length;
+
+      merge(array, left, mid, right, length);
+    }
+
+  }
+
+}
+
+//This merges the arrays in place
+void Sorts::merge(double *array, int left, int mid, int right, int length)
+{
+
+  double work[length];
+  int i = left;
+  int j = mid;
+  int k = left;
+
+  while((i < mid)||(j < right))
+  {
+
+    if(i < mid && j < right)
+    {
+      perf.addCompare();
+
+      if(array[i] < array[j])
+      {
+	work[k++] = array[i++];
+	perf.addAssign();
+      }
+      else
+      {
+	work[k++] = array[j++];
+	perf.addAssign();
+      }
+
+    }
+    else if(i == mid)
+    {
+      work[k++] = array[j++];
+      perf.addAssign();
+    }
+    else if(j == right)
+    {
+      work[k++] = array[i++];
+      perf.addAssign();
+    }
+    
+  }
+
+  for(i = left; i < right; i++)
+  {
+    array[i] = work[i];
+    perf.addAssign();
+  }
+
+}

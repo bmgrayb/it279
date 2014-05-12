@@ -1,0 +1,26 @@
+/*
+ *ULID: bmgrayb
+ *Programmer: Brandon Graybeal
+ *Date: 2/2/2014
+ */
+
+#include <fstream>
+#include<vector>
+using namespace std;
+
+class TriangleModel
+{ 
+ private:
+  ifstream objFile;
+  vector<float> xVec, yVec, zVec;
+  vector<int> point1, point2, point3;
+  // float getSingleVol(int vert1, int vert2, int vert3);
+  
+
+ public:
+  TriangleModel();   //default constructor
+  ~TriangleModel();   //default destructor
+  bool readInputFile(char *filename);
+  float getVolume();
+  
+};

@@ -1,0 +1,27 @@
+/*
+ *ULID: bmgrayb
+ *Programmer: Brandon Graybeal
+ *Date: 2/26/14
+ */
+
+#include <iostream>
+#include <string>
+#include "PriorityQueue.h"
+using namespace std;
+
+int main()
+{
+  PriorityQueue q;
+
+   q.insert(1, 1.1);
+   q.insert(2, 2.1);
+   q.insert(4, 4.1);
+
+   // cout << "front: " << q.front() << endl;
+   cout << "Pop: " << q.pop() << endl;
+   cout << "Pop: " << q.pop() <<  endl;
+   //cout << "Pop: " << q.pop() <<  endl;
+   
+
+  return 0;
+}

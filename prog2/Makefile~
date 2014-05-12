@@ -1,0 +1,14 @@
+WordFinder: WordTester.o WordCompleter.o PrefixNode.o
+	g++ -o WordFinder WordTester.o WordCompleter.o PrefixNode.o
+
+WordTester.o: WordTester.cpp
+	g++ -c WordTester.cpp
+
+WordCompleter.o: WordCompleter.cpp
+	g++ -c WordCompleter.cpp
+
+PrefixNode.o: PrefixNode.cpp
+	g++ -c PrefixNode.cpp
+
+clean:
+	rm WordFinder *.o

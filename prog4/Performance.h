@@ -1,0 +1,20 @@
+#ifndef _PERFORMANCE_H_
+#define _PERFORMANCE_H_
+
+class Performance
+{
+ private:
+  double numCompare;
+  double numAssign;
+
+ public:
+  Performance();
+  void addCompare();
+  void addAssign();
+  void reset();
+  void printResults();
+
+};
+
+
+#endif

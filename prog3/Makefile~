@@ -1,0 +1,5 @@
+PQTest: PQTest.o PriorityQueue.h Node.h
+	g++ -o PQTest PQTest.cpp  
+
+clean:
+	rm PQTest *.o

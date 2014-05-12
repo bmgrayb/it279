@@ -1,0 +1,156 @@
+/*
+ *ULID: bmgrayb
+ *Programmer: Brandon Graybeal
+ *Date: 02/26/14
+ */
+
+#include <map>
+#include <vector>
+#include "Node.h"
+using namespace std;
+
+template<class T>
+class PriorityQueue
+{
+private:
+  vector<Node<T> > heap;
+  map<T, int> nodeMap;
+  int size;
+  int percolateUp(int index);
+  void percolateDown(int index);
+
+public:
+  PriorityQueue();
+  ~PriorityQueue();
+  void insert(T obj, float priority);
+  T front();
+  T pop();
+  bool isEmpty();
+  void changePriority(T obj, float new_priority);
+  void remove(T obj);
+
+};
+
+#include <map>
+#include <vector>
+using namespace std;
+
+template<class T>
+PriorityQueue<T>::PriorityQueue()
+{
+  size = -1;
+  vector< Node<T> > heap;
+  map<T, int> nodeMap;
+}
+
+template<class T>
+PriorityQueue<T>::~PriorityQueue()
+{
+}
+
+//this adds a new node
+template<class T>
+void PriorityQueue<T>::insert(T obj, float priority)
+{
+  Node n(obj, priority);   //creats a new node
+
+  size++;   //increments the size
+
+  heap.push_back(n);    //adds it to the end
+ 
+  percolateUp(size);
+  
+} 
+
+//places the new node in the correct spot
+template<class T>
+int PriorityQueue<T>::percolateUp(int index)
+{
+  int hole = index;
+  Node n = heap[hole];
+
+  while(hole > 0 && heap[hole/2].getPriority() > data.getPriority())
+  {
+    heap[hole] = heap[hole/2];
+
+    nodeMap[heap[hole].getData()] = hole;
+
+    hole = hole/2;
+  }
+
+
+  heap[hole] = data;
+  
+  return hole;
+}
+
+//returns the object with the lowest priority
+template<class T>
+T PriorityQueue<T>::front()
+{
+ 
+  Node n = heap[0];
+
+  return n.getData();
+ 
+}
+
+//removes and returns the object with the lowest priority
+template<class T>
+T PriorityQueue<T>::pop()
+{
+  Node n = heap[0];
+
+  size--;
+  heap[0] = heap[size];
+
+  percolateDown(1);
+
+  return n.getData();
+
+}
+
+//moves every node up from the given index
+template<class T>
+void PriorityQueue<T>::percolateDown(int index)
+{
+  int hole = index;
+  Node n = heap[hole];
+  int  child = 0;
+
+  if((child + 1 <= heap.size()) && heap[child+1] < heap[child])
+    child++;
+
+  while((child <= heap.size()) && (heap[child] < data))
+  {
+    heap[hole] = heap[child];
+    hole = child;
+    child = 2*hole;
+    if((child+1 <= heap.size()) && heap[child+1] < heap[child])
+      child++;
+    
+  }
+  
+  heap[hole] = data;
+
+
+}
+
+template<class T>
+bool PriorityQueue<T>::isEmpty()
+{
+  if(heap.size() == 0)
+    return true;
+  else
+    return false;
+}
+
+template<class T>
+void PriorityQueue<T>::changePriority(T obj, float new_prioirity)
+{
+}
+
+template<class T>
+void PriorityQueue<T>::remove(T obj)
+{
+}

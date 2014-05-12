@@ -1,0 +1,19 @@
+/*
+ *ULID: bmgrayb
+ *Programmer: Brandon Graybeal
+ *Date: 2/18/2014
+ */
+
+#include <iostream>
+#include "WordCompleter.h"
+using namespace std;
+
+int main()
+{
+
+  WordCompleter myWord;
+  
+  myWord.add("Hello");
+
+
+}
